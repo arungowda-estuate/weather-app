@@ -1,65 +1,107 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchWeatherByCity, clearWeather } from "@/features/weatherSlice";
-import type { AppDispatch, RootState } from "@/redux/store";
-import { TextInput, Button, Stack, InlineNotification } from "@carbon/react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  setLoading,
+  setWeatherData,
+  setError,
+  clearWeather,
+} from "@/redux/features/weatherSlice";
+import type { AppDispatch } from "@/redux/store";
+import { Search, Button, Stack } from "@carbon/react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import "./SearchBar.scss";
 
-const SearchBar = () => {
-  const [city, setCity] = useState("");
-  const [debouncedCity, setDebouncedCity] = useState("");
+const SearchBar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const lastClicked = useRef<number>(0);
-
-  const { error } = useSelector((state: RootState) => state.weather);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [query, setQuery] = useState<string>("");
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedCity(city);
-    }, 300);
+    const fetchWeather = async () => {
+      if (!query) return;
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [city]);
+      dispatch(clearWeather());
+      dispatch(setLoading(true));
+      setApiError(null);
 
-  const handleSearch = () => {
-    const now = Date.now();
-    if (now - lastClicked.current > 1000) {
-      lastClicked.current = now;
-      if (debouncedCity.trim()) {
-        dispatch(fetchWeatherByCity(debouncedCity));
+      try {
+        const apiKey =
+          process.env.PUBLIC_OPENWEATHER_API_KEY ||
+          "26d9b70b8b63f8780baa9a15f603dcc5";
+
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${apiKey}&units=metric`
+        );
+
+        if (!response.ok) {
+          throw new Error(`City not found for "${query}"`);
+        }
+
+        const data = await response.json();
+        dispatch(setWeatherData(data));
+      } catch (error) {
+        if (error instanceof Error) {
+          setApiError(error.message);
+          dispatch(setError(error.message));
+        }
+      } finally {
+        dispatch(setLoading(false));
       }
-    }
-  };
+    };
+
+    fetchWeather();
+  }, [query, dispatch]);
+
+  const formik = useFormik({
+    initialValues: {
+      city: "",
+    },
+    validationSchema: Yup.object({
+      city: Yup.string().required("City name is required"),
+    }),
+    onSubmit: (values) => {
+      setQuery(values.city.trim());
+    },
+  });
 
   return (
-    <Stack gap={4}>
-      <TextInput
-        id="city-search"
-        labelText="Enter City"
-        placeholder="e.g. London"
-        value={city}
-        onChange={(e) => {
-          setCity(e.target.value);
-          dispatch(clearWeather());
-        }}
-        size="lg"
-      />
-      <Button onClick={handleSearch} kind="primary" disabled={!city.trim()}>
-        Search Weather
-      </Button>
+    <form onSubmit={formik.handleSubmit} className="searchbar-form">
+      <Stack orientation="horizontal" gap={3} className="searchbar-stack">
+        <div className="searchbar-input-wrapper">
+          <Search
+            id="city-search"
+            labelText="Search city weather"
+            placeholder="e.g. London"
+            size="lg"
+            role="searchbox"
+            type="text"
+            closeButtonLabelText="Clear search input"
+            value={formik.values.city}
+            onChange={(e) => {
+              formik.setFieldValue("city", e.target.value);
+              setApiError(null);
+              dispatch(clearWeather());
+            }}
+            onBlur={formik.handleBlur}
+          />
 
-      {error && (
-        <InlineNotification
-          kind="error"
-          title="Error"
-          subtitle={error}
-          lowContrast
-        />
-      )}
-    </Stack>
+          <div className="searchbar-error">
+            {formik.touched.city && formik.errors.city
+              ? formik.errors.city
+              : apiError && !formik.errors.city
+              ? apiError
+              : ""}
+          </div>
+        </div>
+
+        <Button type="submit" kind="primary" className="searchbar-button">
+          Search
+        </Button>
+      </Stack>
+    </form>
   );
 };
 

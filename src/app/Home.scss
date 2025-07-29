@@ -1,4 +1,8 @@
-.main {
+@use '@carbon/styles/scss/spacing' as *;
+@use '@carbon/styles/scss/colors' as *;
+@use '@carbon/styles/scss/theme' as *;
+
+.home-main {
   min-height: 100vh;
   width: 100vw;
   background-color: var(--cds-background);
@@ -8,36 +12,39 @@
   overflow: hidden;
 }
 
-.grid {
+.home-grid {
   width: 100%;
   max-width: 42rem;
-  padding: var(--cds-spacing-07);
+  padding: $spacing-07;
   box-sizing: border-box;
 }
 
-.centeredColumn {
+.home-centered-column {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.tile {
+.home-tile {
   background-color: var(--cds-layer-01);
   box-shadow: var(--cds-box-shadow);
-  border-radius: 0.5rem;
+  border-radius: $spacing-02;
   width: 100%;
-  padding: var(--cds-spacing-07);
+  padding: $spacing-07;
 }
 
-.title {
+.home-title {
   color: var(--cds-text-primary);
   text-align: center;
-  margin-bottom: var(--cds-spacing-05);
+  margin-bottom: $spacing-05;
 }
 
-.contentWrapper {
+.home-content-wrapper {
   width: 100%;
-  max-width: 400px;
-
+  max-width: 25rem;
   margin: 0 auto;
+}
+
+.weather-gap {
+  margin-top: $spacing-06;
 }

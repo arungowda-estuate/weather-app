@@ -2,29 +2,28 @@
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { Tile } from "@carbon/react";
-import { FlexGrid, Row, Column } from "@carbon/react";
+import { Tile, FlexGrid, Row, Column } from "@carbon/react";
 import SearchBar from "@/components/SearchBar";
 import WeatherCard from "@/components/WeatherCard";
-import styles from "./Home.module.css";
+import "./Home.scss";
 
 export default function Home() {
   const weather = useSelector((state: RootState) => state.weather.data);
 
   return (
-    <main className={styles.main}>
-      <FlexGrid className={styles.grid} fullWidth>
+    <main className="home-main">
+      <FlexGrid fullWidth className="home-grid">
         <Row>
-          <Column sm={4} md={6} lg={8} className={styles.centeredColumn}>
-            <Tile className={styles.tile}>
-              <h1 className={styles.title}>🌤 Weather App</h1>
+          <Column sm={4} md={6} lg={8} className="home-centered-column">
+            <Tile className="home-tile">
+              <h1 className="home-title">🌤 Weather App</h1>
 
-              <div className={styles.contentWrapper}>
+              <div className="home-content-wrapper">
                 <SearchBar />
               </div>
 
               {weather && (
-                <div className={styles.contentWrapper}>
+                <div className="home-content-wrapper weather-gap">
                   <WeatherCard />
                 </div>
               )}
