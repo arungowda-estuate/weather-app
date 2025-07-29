@@ -1,9 +1,11 @@
+@use "@carbon/styles/scss/reset";
+@use "@carbon/styles/scss/themes";
+@use "@carbon/styles/scss/theme";
+@use "@carbon/styles";
 
-
-@use '@carbon/styles/scss/reset';
-@use '@carbon/styles/scss/themes';
-@use '@carbon/styles/scss/theme';
-@use '@carbon/styles';
+:root {
+  --cds-font-family-sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+}
 
 html,
 body {

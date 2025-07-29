@@ -1,16 +1,18 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { fetchWeatherByCity } from "@/features/weatherSlice";
-import type { AppDispatch } from "@/redux/store";
-import { TextInput, Button, Stack } from "@carbon/react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWeatherByCity, clearWeather } from "@/features/weatherSlice";
+import type { AppDispatch, RootState } from "@/redux/store";
+import { TextInput, Button, Stack, InlineNotification } from "@carbon/react";
 
 const SearchBar = () => {
   const [city, setCity] = useState("");
   const [debouncedCity, setDebouncedCity] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const lastClicked = useRef<number>(0);
+
+  const { error } = useSelector((state: RootState) => state.weather);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -39,12 +41,24 @@ const SearchBar = () => {
         labelText="Enter City"
         placeholder="e.g. London"
         value={city}
-        onChange={(e) => setCity(e.target.value)}
+        onChange={(e) => {
+          setCity(e.target.value);
+          dispatch(clearWeather());
+        }}
         size="lg"
       />
-      <Button onClick={handleSearch} kind="primary">
+      <Button onClick={handleSearch} kind="primary" disabled={!city.trim()}>
         Search Weather
       </Button>
+
+      {error && (
+        <InlineNotification
+          kind="error"
+          title="Error"
+          subtitle={error}
+          lowContrast
+        />
+      )}
     </Stack>
   );
 };

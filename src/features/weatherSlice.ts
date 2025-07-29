@@ -30,7 +30,12 @@ export const fetchWeatherByCity = createAsyncThunk(
 const weatherSlice = createSlice({
   name: "weather",
   initialState,
-  reducers: {},
+  reducers: {
+    clearWeather: (state) => {
+      state.data = null;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchWeatherByCity.pending, (state) => {
@@ -47,5 +52,5 @@ const weatherSlice = createSlice({
       });
   },
 });
-
+export const { clearWeather } = weatherSlice.actions;
 export default weatherSlice.reducer;
