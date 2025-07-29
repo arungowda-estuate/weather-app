@@ -1,76 +1,75 @@
+// "use client";
+
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/redux/store";
+// import { Grid, Column, Tile } from "@carbon/react";
+// import SearchBar from "@/components/SearchBar";
+// import WeatherCard from "@/components/WeatherCard";
+// import styles from "./Home.module.css";
+
+// export default function Home() {
+//   const weather = useSelector((state: RootState) => state.weather.data);
+
+//   return (
+//     <main className={styles.main}>
+//       <div className={styles.container}>
+//         <Grid fullWidth condensed>
+//           <Column sm={4} md={6} lg={8}>
+//             <Tile className={styles.tile}>
+//               <h1 className={styles.title}>🌤 Weather App</h1>
+//               <SearchBar />
+//               {weather && (
+//                 <div className={styles.weatherCardWrapper}>
+//                   <WeatherCard />
+//                 </div>
+//               )}
+//             </Tile>
+//           </Column>
+//         </Grid>
+//       </div>
+//     </main>
+//   );
+// }
+
+
+
+
+
+
 "use client";
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { Grid, Column, Tile } from "@carbon/react";
+import { Tile } from "@carbon/react";
+import { FlexGrid, Row, Column } from "@carbon/react"; // FlexGrid imports
 import SearchBar from "@/components/SearchBar";
 import WeatherCard from "@/components/WeatherCard";
+import styles from "./Home.module.css";
 
 export default function Home() {
   const weather = useSelector((state: RootState) => state.weather.data);
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        width: "100vw",
-        backgroundColor: "var(--cds-background)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          position: "fixed", 
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "100%",
-          maxWidth: "42rem",
-          padding: "var(--cds-spacing-07)",
-        }}
-      >
-        <Grid fullWidth condensed>
-          <Column sm={4} md={6} lg={8}>
-            <Tile
-              style={{
-                padding: "var(--cds-spacing-07)",
-                backgroundColor: "var(--cds-layer)",
-                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.15)",
-                borderRadius: "0.5rem",
-              }}
-            >
-              <h1
-                style={{
-                  color: "var(--cds-text-primary)",
-                  marginBottom: "var(--cds-spacing-05)",
-                  textAlign: "center",
-                }}
-              >
-                🌤 Weather App
-              </h1>
+    <main className={styles.main}>
+      <FlexGrid className={styles.grid} fullWidth>
+        <Row>
+          <Column sm={4} md={6} lg={8} className={styles.centeredColumn}>
+            <Tile className={styles.tile}>
+              <h1 className={styles.title}>🌤 Weather App</h1>
 
-              <SearchBar />
+              <div className="bx--margin-bottom-06">
+                <SearchBar />
+              </div>
 
               {weather && (
-                <div
-                  style={{
-                    marginTop: "var(--cds-spacing-06)",
-                  }}
-                >
+                <div className="bx--margin-top-06">
                   <WeatherCard />
                 </div>
               )}
             </Tile>
           </Column>
-        </Grid>
-      </div>
+        </Row>
+      </FlexGrid>
     </main>
   );
 }
-
-
-
-
-
-
