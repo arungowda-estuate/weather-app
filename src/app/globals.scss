@@ -1,0 +1,18 @@
+
+
+@use '@carbon/styles/scss/reset';
+@use '@carbon/styles/scss/themes';
+@use '@carbon/styles/scss/theme';
+@use '@carbon/styles';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--cds-font-family-sans);
+
+  background-color: var(--cds-background);
+  color: var(--cds-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
