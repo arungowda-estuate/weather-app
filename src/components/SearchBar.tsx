@@ -9,10 +9,10 @@ import {
   clearWeather,
 } from "@/redux/features/weatherSlice";
 import type { AppDispatch } from "@/redux/store";
-import { Search, Button, Stack } from "@carbon/react";
+import { Button, Stack, TextInput } from "@carbon/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "./SearchBar.scss";
+import "@/app/globals.scss";
 
 const SearchBar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -63,23 +63,33 @@ const SearchBar: React.FC = () => {
       city: Yup.string().required("City name is required"),
     }),
     onSubmit: (values) => {
-      setQuery(values.city.trim());
+      setQuery(values.city);
     },
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="searchbar-form">
-      <Stack orientation="horizontal" gap={3} className="searchbar-stack">
-        <div className="searchbar-input-wrapper">
-          <Search
+    <form onSubmit={formik.handleSubmit}>
+      <Stack orientation="horizontal" gap={3}>
+        <div>
+          <TextInput
             id="city-search"
             labelText="Search city weather"
             placeholder="e.g. London"
             size="lg"
             role="searchbox"
             type="text"
-            closeButtonLabelText="Clear search input"
-            value={formik.values.city}
+            required
+            invalid={
+              (formik.touched.city && Boolean(formik.errors.city)) ||
+              Boolean(apiError)
+            }
+            invalidText={
+              formik.touched.city && formik.errors.city
+                ? formik.errors.city
+                : apiError && !formik.errors.city
+                ? apiError
+                : ""
+            }
             onChange={(e) => {
               formik.setFieldValue("city", e.target.value);
               setApiError(null);
@@ -87,17 +97,9 @@ const SearchBar: React.FC = () => {
             }}
             onBlur={formik.handleBlur}
           />
-
-          <div className="searchbar-error">
-            {formik.touched.city && formik.errors.city
-              ? formik.errors.city
-              : apiError && !formik.errors.city
-              ? apiError
-              : ""}
-          </div>
         </div>
 
-        <Button type="submit" kind="primary" className="searchbar-button">
+        <Button type="submit" className="searchbar-button">
           Search
         </Button>
       </Stack>

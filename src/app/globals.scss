@@ -1,20 +1,29 @@
-@use "@carbon/styles/scss/reset";
-@use "@carbon/styles/scss/themes";
-@use "@carbon/styles/scss/theme";
-@use "@carbon/styles";
+@use "@carbon/styles" as *;
 
 :root {
   --cds-font-family-sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: var(--cds-font-family-sans);
+.app-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-07;
+}
 
-  background-color: var(--cds-background);
-  color: var(--cds-text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+.app-tile {
+  padding: $spacing-07;
+  background: var(--cds-layer-01);
+}
+
+.app-title {
+  text-align: center;
+  margin-bottom: $spacing-05;
+}
+
+.weather-grid {
+  margin-top: $spacing-06;
+}
+.searchbar-button {
+  margin-top: $spacing-06;
 }

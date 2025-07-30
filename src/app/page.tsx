@@ -5,25 +5,25 @@ import { RootState } from "@/redux/store";
 import { Tile, FlexGrid, Row, Column } from "@carbon/react";
 import SearchBar from "@/components/SearchBar";
 import WeatherCard from "@/components/WeatherCard";
-import "./Home.scss";
+import "@/app/globals.scss";
 
 export default function Home() {
   const weather = useSelector((state: RootState) => state.weather.data);
 
   return (
-    <main className="home-main">
-      <FlexGrid fullWidth className="home-grid">
+    <main className="app-main">
+      <FlexGrid fullWidth>
         <Row>
-          <Column sm={4} md={6} lg={8} className="home-centered-column">
-            <Tile className="home-tile">
-              <h1 className="home-title">🌤 Weather App</h1>
+          <Column sm={4} md={6} lg={8}>
+            <Tile className="app-tile">
+              <h1 className="app-title">🌤 Weather App</h1>
 
-              <div className="home-content-wrapper">
+              <div>
                 <SearchBar />
               </div>
 
               {weather && (
-                <div className="home-content-wrapper weather-gap">
+                <div>
                   <WeatherCard />
                 </div>
               )}

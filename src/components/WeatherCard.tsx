@@ -11,7 +11,6 @@ import {
   Row,
   Column,
   UnorderedList,
-  ListItem,
 } from "@carbon/react";
 import {
   Temperature,
@@ -22,7 +21,7 @@ import {
   Pressure,
   View,
 } from "@carbon/icons-react";
-import "./WeatherCard.scss";
+import "@/app/globals.scss";
 
 interface WeatherData {
   name: string;
@@ -65,69 +64,56 @@ const WeatherCard = () => {
     <FlexGrid fullWidth className="weather-grid">
       <Row>
         <Column sm={4} md={6} lg={8}>
-          <Tile className="weather-tile">
-            <h2 className="weather-title">
+          <Tile>
+            <h2>
               {weatherData.name}, {weatherData.sys.country}
             </h2>
 
-            <Tag type="cool-gray" size="lg" className="weather-tag">
+            <Tag type="cool-gray" size="lg">
               <Cloud size={16} className="icon" />
               {weatherData.weather[0].main}
             </Tag>
 
-            <Stack gap={5} className="weather-details">
+            <Stack gap={5}>
               <UnorderedList nested={false}>
-                <ListItem>
-                  <Temperature size={16} className="icon" /> Temperature:{" "}
-                  {Math.round(weatherData.main.temp)}°C
-                </ListItem>
-                <ListItem>
-                  <Temperature size={16} className="icon" /> Feels Like:{" "}
-                  {Math.round(weatherData.main.feels_like)}°C
-                </ListItem>
-                <ListItem>
-                  <Temperature size={16} className="icon" /> Humidity:{" "}
-                  {weatherData.main.humidity}%
-                </ListItem>
-                <ListItem>
-                  <Windy size={16} className="icon" /> Wind Speed:{" "}
-                  {weatherData.wind.speed} m/s
-                </ListItem>
-                <ListItem>
-                  <Cloud size={16} className="icon" /> Weather:{" "}
-                  {weatherData.weather[0].description}
-                </ListItem>
-                <ListItem>
-                  <Pressure size={16} className="icon" /> Pressure:{" "}
-                  {weatherData.main.pressure} hPa
-                </ListItem>
-                <ListItem>
-                  <Temperature size={16} className="icon" /> Min Temp:{" "}
-                  {Math.round(weatherData.main.temp_min)}°C
-                </ListItem>
-                <ListItem>
-                  <Temperature size={16} className="icon" /> Max Temp:{" "}
-                  {Math.round(weatherData.main.temp_max)}°C
-                </ListItem>
-                <ListItem>
-                  <Sunrise size={16} className="icon" /> Sunrise:{" "}
-                  {new Date(
-                    weatherData.sys.sunrise * 1000
-                  ).toLocaleTimeString()}
-                </ListItem>
-                <ListItem>
-                  <Sunset size={16} className="icon" /> Sunset:{" "}
-                  {new Date(weatherData.sys.sunset * 1000).toLocaleTimeString()}
-                </ListItem>
-                <ListItem>
-                  <Windy size={16} className="icon" /> Wind Direction:{" "}
-                  {weatherData.wind.deg}°
-                </ListItem>
-                {weatherData.visibility && (
-                  <ListItem>
-                    <View size={16} className="icon" /> Visibility:{" "}
+                <Temperature size={16} />
+                Temperature: {weatherData.main.temp}°C
+                <br />
+                <Temperature size={16} />
+                Feels Like: {weatherData.main.feels_like}°C
+                <br />
+                <Temperature size={16} />
+                Humidity: {weatherData.main.humidity}%
+                <br />
+                <Windy size={16} />
+                Wind Speed: {weatherData.wind.speed} m/s
+                <br />
+                <Cloud size={16} />
+                Weather: {weatherData.weather[0].description}
+                <br />
+                <Pressure size={16} /> Pressure:
+                {weatherData.main.pressure} hPa
+                <br />
+                <Temperature size={16} /> Min Temp:
+                {weatherData.main.temp_min}°C
+                <br />
+                <Temperature size={16} /> Max Temp:
+                {weatherData.main.temp_max}°C
+                <br />
+                <Sunrise size={16} /> Sunrise:
+                {new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString()}
+                <br />
+                <Sunset size={16} /> Sunset:
+                {new Date(weatherData.sys.sunset * 1000).toLocaleTimeString()}
+                <br />
+                <Windy size={16} /> Wind Direction:
+                {weatherData.wind.deg}°
+                <br />
+                {weatherData.visibility !== undefined && (
+                  <>
+                    <View size={16} /> Visibility:{" "}
                     {weatherData.visibility / 1000} km
-                  </ListItem>
+                  </>
                 )}
               </UnorderedList>
             </Stack>
