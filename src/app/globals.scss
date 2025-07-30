@@ -1,29 +1,30 @@
+@use "@carbon/react" with (
+  $use-flexbox-grid: true
+);
 @use "@carbon/styles" as *;
 
 :root {
   --cds-font-family-sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
-.app-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: $spacing-07;
+.app-container {
+  .cds--tile {
+    padding: $spacing-07;
+    background: var(--cds-layer-01);
+    text-align: center;
+    h1 {
+      margin-bottom: $spacing-05;
+    }
+  }
 }
 
-.app-tile {
-  padding: $spacing-07;
-  background: var(--cds-layer-01);
+.no-gap-grid .cds--col {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-.app-title {
-  text-align: center;
-  margin-bottom: $spacing-05;
-}
-
-.weather-grid {
+.search-btn-col .cds--btn {
   margin-top: $spacing-06;
-}
-.searchbar-button {
-  margin-top: $spacing-06;
+  height: 3rem;
+  width: 100%;
 }

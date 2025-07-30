@@ -61,9 +61,9 @@ const WeatherCard = () => {
   const weatherData = data as WeatherData;
 
   return (
-    <FlexGrid fullWidth className="weather-grid">
+    <FlexGrid fullWidth className="weather-container">
       <Row>
-        <Column sm={4} md={6} lg={8}>
+        <Column sm={4} md={6} lg={16}>
           <Tile>
             <h2>
               {weatherData.name}, {weatherData.sys.country}
@@ -74,46 +74,57 @@ const WeatherCard = () => {
               {weatherData.weather[0].main}
             </Tag>
 
-            <Stack gap={5}>
+            <Stack gap={3}>
               <UnorderedList nested={false}>
-                <Temperature size={16} />
-                Temperature: {weatherData.main.temp}°C
-                <br />
-                <Temperature size={16} />
-                Feels Like: {weatherData.main.feels_like}°C
-                <br />
-                <Temperature size={16} />
-                Humidity: {weatherData.main.humidity}%
-                <br />
-                <Windy size={16} />
-                Wind Speed: {weatherData.wind.speed} m/s
-                <br />
-                <Cloud size={16} />
-                Weather: {weatherData.weather[0].description}
-                <br />
-                <Pressure size={16} /> Pressure:
-                {weatherData.main.pressure} hPa
-                <br />
-                <Temperature size={16} /> Min Temp:
-                {weatherData.main.temp_min}°C
-                <br />
-                <Temperature size={16} /> Max Temp:
-                {weatherData.main.temp_max}°C
-                <br />
-                <Sunrise size={16} /> Sunrise:
-                {new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString()}
-                <br />
-                <Sunset size={16} /> Sunset:
-                {new Date(weatherData.sys.sunset * 1000).toLocaleTimeString()}
-                <br />
-                <Windy size={16} /> Wind Direction:
-                {weatherData.wind.deg}°
-                <br />
+                <li>
+                  <Temperature size={16} /> Temperature: {weatherData.main.temp}
+                  °C
+                </li>
+                <li>
+                  <Temperature size={16} /> Feels Like:{" "}
+                  {weatherData.main.feels_like}°C
+                </li>
+                <li>
+                  <Temperature size={16} /> Humidity:{" "}
+                  {weatherData.main.humidity}%
+                </li>
+                <li>
+                  <Windy size={16} /> Wind Speed: {weatherData.wind.speed} m/s
+                </li>
+                <li>
+                  <Cloud size={16} /> Weather:{" "}
+                  {weatherData.weather[0].description}
+                </li>
+                <li>
+                  <Pressure size={16} /> Pressure: {weatherData.main.pressure}{" "}
+                  hPa
+                </li>
+                <li>
+                  <Temperature size={16} /> Min Temp:{" "}
+                  {weatherData.main.temp_min}°C
+                </li>
+                <li>
+                  <Temperature size={16} /> Max Temp:{" "}
+                  {weatherData.main.temp_max}°C
+                </li>
+                <li>
+                  <Sunrise size={16} /> Sunrise:{" "}
+                  {new Date(
+                    weatherData.sys.sunrise * 1000
+                  ).toLocaleTimeString()}
+                </li>
+                <li>
+                  <Sunset size={16} /> Sunset:{" "}
+                  {new Date(weatherData.sys.sunset * 1000).toLocaleTimeString()}
+                </li>
+                <li>
+                  <Windy size={16} /> Wind Direction: {weatherData.wind.deg}°
+                </li>
                 {weatherData.visibility !== undefined && (
-                  <>
+                  <li>
                     <View size={16} /> Visibility:{" "}
                     {weatherData.visibility / 1000} km
-                  </>
+                  </li>
                 )}
               </UnorderedList>
             </Stack>

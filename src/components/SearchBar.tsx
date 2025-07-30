@@ -9,7 +9,7 @@ import {
   clearWeather,
 } from "@/redux/features/weatherSlice";
 import type { AppDispatch } from "@/redux/store";
-import { Button, Stack, TextInput } from "@carbon/react";
+import { Button, Column, FlexGrid, Row, TextInput } from "@carbon/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "@/app/globals.scss";
@@ -68,41 +68,45 @@ const SearchBar: React.FC = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Stack orientation="horizontal" gap={3}>
-        <div>
-          <TextInput
-            id="city-search"
-            labelText="Search city weather"
-            placeholder="e.g. London"
-            size="lg"
-            role="searchbox"
-            type="text"
-            required
-            invalid={
-              (formik.touched.city && Boolean(formik.errors.city)) ||
-              Boolean(apiError)
-            }
-            invalidText={
-              formik.touched.city && formik.errors.city
-                ? formik.errors.city
-                : apiError && !formik.errors.city
-                ? apiError
-                : ""
-            }
-            onChange={(e) => {
-              formik.setFieldValue("city", e.target.value);
-              setApiError(null);
-              dispatch(clearWeather());
-            }}
-            onBlur={formik.handleBlur}
-          />
-        </div>
+    <form onSubmit={formik.handleSubmit} className="no-gap-grid">
+      <FlexGrid narrow>
+        <Row>
+          <Column lg={{ span: 8, offset: 2 }}>
+            <TextInput
+              id="city-search"
+              labelText="Enter city name"
+              placeholder="Search city weather..."
+              size="lg"
+              role="searchbox"
+              type="text"
+              required
+              invalid={
+                (formik.touched.city && Boolean(formik.errors.city)) ||
+                Boolean(apiError)
+              }
+              invalidText={
+                formik.touched.city && formik.errors.city
+                  ? formik.errors.city
+                  : apiError && !formik.errors.city
+                  ? apiError
+                  : ""
+              }
+              onChange={(e) => {
+                formik.setFieldValue("city", e.target.value);
+                setApiError(null);
+                dispatch(clearWeather());
+              }}
+              onBlur={formik.handleBlur}
+            />
+          </Column>
 
-        <Button type="submit" className="searchbar-button">
-          Search
-        </Button>
-      </Stack>
+          <Column lg={4} className="search-btn-col">
+            <Button type="submit" size="lg" kind="primary">
+              Search
+            </Button>
+          </Column>
+        </Row>
+      </FlexGrid>
     </form>
   );
 };

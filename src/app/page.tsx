@@ -11,12 +11,12 @@ export default function Home() {
   const weather = useSelector((state: RootState) => state.weather.data);
 
   return (
-    <main className="app-main">
+    <main className="app-container">
       <FlexGrid fullWidth>
         <Row>
-          <Column sm={4} md={6} lg={8}>
-            <Tile className="app-tile">
-              <h1 className="app-title">🌤 Weather App</h1>
+          <Column sm={4} md={6} lg={16}>
+            <Tile>
+              <h1>🌤 Weather App</h1>
 
               <div>
                 <SearchBar />
